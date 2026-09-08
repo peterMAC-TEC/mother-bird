@@ -1,8 +1,8 @@
 const TABS = [
-  { id: "today", label: "Today", icon: "✓" },
-  { id: "goals", label: "Goals", icon: "◆" },
-  { id: "kpis", label: "KPIs", icon: "◷" },
   { id: "expenses", label: "Spend", icon: "₹" },
+  { id: "goals", label: "Goals", icon: "◆" },
+  { id: "today", label: "Today", icon: "✓" },
+  { id: "kpis", label: "KPIs", icon: "◷" },
   { id: "dashboard", label: "Metrics", icon: "▤" },
 ];
 

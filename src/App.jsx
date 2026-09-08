@@ -18,7 +18,7 @@ import { readShareSnapshotFromHash } from "./lib/shareLink.js";
 
 export default function App() {
   const sharedSnapshot = readShareSnapshotFromHash(window.location.hash);
-  const [tab, setTab] = useState("today");
+  const [tab, setTab] = useState("expenses");
   const [goals, setGoals] = useState(() => loadGoals());
   const [tasks, setTasks] = useState(() => loadTasks());
   const [kpis, setKpis] = useState(() => loadKPIs());
@@ -132,7 +132,10 @@ export default function App() {
   return (
     <main className="app">
       <header className="app-header">
-        <h1>Mother Bird</h1>
+        <div className="app-header-brand">
+          <img src="/icon-192.png" alt="" className="app-logo" />
+          <h1>Mother Bird</h1>
+        </div>
         <p className="app-tagline">Break the big goal down. Show up on the small one.</p>
       </header>
 

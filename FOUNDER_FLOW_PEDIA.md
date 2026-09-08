@@ -124,7 +124,7 @@ index.html                       entry HTML, title, inline favicon (data URI, av
 vite.config.js                   Vite + @vitejs/plugin-react, no other config
 public/manifest.webmanifest      PWA manifest — name, icons, standalone display
 public/sw.js                     minimal app-shell service worker (network-first shell, cache-first assets)
-public/icon-192.png, icon-512.png, icon-180.png   hand-generated app icons
+public/icon-192.png, icon-512.png, icon-180.png   app icons, cropped/resized from a user-supplied logo (mother-and-baby-bird mark)
 src/main.jsx                     React root, imports styles.css, registers the service worker
 src/App.jsx                      top-level state (goals/tasks/kpis/settings/expenses), tab routing, all handlers
 src/styles.css                   the entire design system — plain CSS, no framework, one file
@@ -142,7 +142,7 @@ src/lib/
   expenseLogic.js                  parseExpensePhrase, classifyExpense, totalsByCategory — voice expense parsing
 
 src/components/
-  TabNav.jsx                     bottom tab bar: Today / Goals / KPIs / Spend / Metrics
+  TabNav.jsx                     bottom tab bar, in app order: Spend / Goals / Today / KPIs / Metrics
   VoiceButton.jsx                  reusable mic button (Web Speech API), used in every add-task/goal/KPI form
   ExpenseCapture.jsx               one-tap voice expense capture (auto-commits on silence), rendered on Spend tab
   ExpensesView.jsx                 personal/business running totals + the logged-expenses list
@@ -174,6 +174,8 @@ No router (five tabs, one `useState`), no global state library (lifted state in 
 - **Motion (small, deliberate, never decorative):** every `<button>` gets a shared `transition` + a `:active { transform: scale(0.97) }` press-down, so every tap in the app feels the same. The task checkbox is a real circle now (`.task-check-icon`, `22px`, border-only when unchecked, filled `--success` + a `check-pop` keyframe when checked) instead of a bare "✓" glyph — the pop makes checking something off read as a small reward, not just a color flip. `goal-card-body` (expanding a goal) and `.backlog-banner` (appearing) both use one shared `fade-slide-in` keyframe on mount, so new content never just snaps into place. All of it is wrapped in a `@media (prefers-reduced-motion: reduce)` guard that collapses every transition/animation to near-zero — motion is a nice-to-have, not something to fight a user's OS setting over.
 - **Hover/focus affordances:** `.goal-card-head` and `.task-check` get a `--surface-sunken` hover fill so the tap targets read as interactive before you touch them (a plain `<button>` with no background gave no such hint); everything else keeps the pre-existing `:focus-visible` outline in `--accent`.
 - **App identity:** name is "Mother Bird" (was "Forge Flow") — `index.html` `<title>`/meta, `App.jsx` `<h1>`, `SharedProgressView.jsx` `<h1>`, `manifest.webmanifest` `name`/`short_name`, and user-facing copy in `backup.js`/`DataBackup.jsx` were updated. Deliberately **not** renamed: the `forge-flow:*` `localStorage` key prefix (`storage.js`), the backup file's internal `.json` filename prefix's underlying key names, and `package.json`'s `name` field — these are internal identifiers with no user-facing exposure, and renaming the storage keys specifically would orphan any data already saved under the old keys with no migration path. If a full internal rename is ever wanted, it needs a real migration (read old keys once, write under new keys, keep a fallback), not a find-replace.
+- **Logo:** a mother-and-baby-bird mark (user-supplied artwork) replaced the original hand-drawn checkmark glyph everywhere — favicon (`index.html`, now a plain `<link rel="icon" href="/icon-192.png">` instead of an inline SVG), PWA icons, apple-touch-icon, and a 36px `<img>` in the in-app header (`.app-header-brand`, in both `App.jsx` and `SharedProgressView.jsx` — `alt=""` since the adjacent "Mother Bird" `<h1>` already names it, so a screen reader isn't told the same thing twice). The source artwork (1254×1254, cream background) had the actual bird occupying only the center ~35–45% of the canvas; a plain resize made it read as a blurry smudge at 36–192px, so the icons are a *cropped* resize — canvas `getImageData` scans for the bounding box of non-background pixels, then a roughly-square region around that box (with a little padding) is what actually gets scaled down. Regenerating them (if the logo ever changes) means redoing that bounding-box crop, not just a resize — a plain resize of a padded source will look wrong again at small sizes.
+- **Tab order:** `Spend → Goals → Today → KPIs → Metrics` (`TabNav.jsx`'s `TABS` array order, and `App.jsx`'s initial `useState` tab — both were changed together). This is a deliberate reprioritization: expense capture is the fastest, most frequent action (one tap, speak, done) so it's what opens first; long-term goals come next as the "why," the daily task list third as the "what right now," then the two review-oriented tabs (KPIs, Metrics) last.
 
 ## 8. Roadmap — what's next, and how it'd plug in
 

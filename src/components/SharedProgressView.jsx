@@ -2,7 +2,10 @@ export default function SharedProgressView({ snapshot }) {
   return (
     <main className="app">
       <header className="app-header">
-        <h1>Mother Bird</h1>
+        <div className="app-header-brand">
+          <img src="/icon-192.png" alt="" className="app-logo" />
+          <h1>Mother Bird</h1>
+        </div>
         <p className="app-tagline">Shared progress snapshot — read only</p>
       </header>
 

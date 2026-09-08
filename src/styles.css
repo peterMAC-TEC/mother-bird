@@ -82,10 +82,24 @@ body {
   border-bottom: 1px solid var(--border);
 }
 
+.app-header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 4px;
+}
+
+.app-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
 .app-header h1 {
   font-size: 1.75rem;
   letter-spacing: -0.01em;
-  margin: 0 0 4px;
+  margin: 0;
 }
 
 .app-tagline {
